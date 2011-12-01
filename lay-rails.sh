@@ -23,15 +23,17 @@ echo "source :rubygems
 gem 'rails',          '~> 3.1.3'
 
 # db
-gem 'pg'
+gem 'pg',             '~> 0.11.0'
 
 # assets
 group :assets do
-  gem 'sass-rails',   '~> 3.1.5.rc.2'
+  gem 'sass-rails',   '~> 3.1.5'
   gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier',     '>= 1.0.3'
+  gem 'uglifier',     '~> 1.1.0'
 end
-gem 'jquery-rails'
+
+gem 'jquery-rails',   '~> 1.0.19'
+gem 'haml-rails',     '~> 0.1.0'
 
 group :development, :test do
   gem 'rspec-rails',  '~> 2.7.0'
