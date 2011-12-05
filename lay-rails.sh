@@ -20,30 +20,32 @@ echo "install rails"
 # Gemfile
 echo "source :rubygems
 
-gem 'rails',          '~> 3.1.3'
+gem 'rails'
 
 # db
-gem 'pg',             '~> 0.11.0'
+#gem 'pg'
+gem 'sqlite3'
 
 # assets
 group :assets do
-  gem 'sass-rails',   '~> 3.1.5'
-  gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier',     '~> 1.1.0'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
 end
 
-gem 'jquery-rails',   '~> 1.0.19'
-gem 'haml-rails',     '~> 0.1.0'
+gem 'jquery-rails'
+gem 'haml-rails'
 
 group :development, :test do
-  gem 'rspec-rails',  '~> 2.7.0'
-  gem 'thin',         '~> 1.3.1'
+  gem 'rspec-rails'
+  gem 'thin'
 end
 " > Gemfile
 
 bundle install --binstubs --path vendor/bundle
 expect -c "
-spawn bundle exec rails new . -T -d postgresql --skip-bundle
+#spawn bundle exec rails new . -T -d postgresql --skip-bundle
+spawn bundle exec rails new . -T -d sqlite3 --skip-bundle
 expect \"Ynaqdh\"; send \"n\r\"
 interact
 "
@@ -57,6 +59,6 @@ echo "
 /log/*.log
 /tmp
 /vendor/bundle
-" >> .gitignore
+" > .gitignore
 
 bundle exec rails g rspec:install
