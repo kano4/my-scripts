@@ -17,16 +17,13 @@ cd $app
 
 echo "install rails"
 
-# Gemfile
-echo "source :rubygems
+cat > Gemfile <<EOF
+source :rubygems
 
-gem 'rails'
+gem 'rails', '~> 3.2.0.rc1'
 
-# db
-#gem 'pg'
 gem 'sqlite3'
 
-# assets
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
@@ -40,7 +37,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'thin'
 end
-" > Gemfile
+EOF
 
 bundle install --binstubs --path vendor/bundle
 expect -c "
@@ -51,14 +48,13 @@ interact
 "
 git init
 
-# .gitignore
-echo "
+cat > .gitignore <<EOF
 /.bundle
 /bin
 /db/*.sqlite3
 /log/*.log
 /tmp
 /vendor/bundle
-" > .gitignore
+EOF
 
 bundle exec rails g rspec:install
