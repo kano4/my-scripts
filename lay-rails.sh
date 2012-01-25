@@ -3,7 +3,7 @@ app=$1
 
 if [ -z $app ]
 then
-  echo "[usage] ./lay_rails.sh (AppName)"
+  echo "[Usage] ./lay_rails.sh (AppName)"
   exit 0
 elif [ -e $app ]
 then
@@ -11,27 +11,25 @@ then
   exit 0
 fi
 
-echo "Start Creating ${app}"
+echo "Creating ${app}"
 mkdir $app
 cd $app
-
-echo "install rails"
 
 cat > Gemfile <<EOF
 source :rubygems
 
-gem 'rails', '~> 3.2.0.rc1'
+gem 'rails'
 
 gem 'sqlite3'
+
+gem 'haml-rails'
+gem 'jquery-rails'
 
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
 end
-
-gem 'jquery-rails'
-gem 'haml-rails'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -41,7 +39,6 @@ EOF
 
 bundle install --binstubs --path vendor/bundle
 expect -c "
-#spawn bundle exec rails new . -T -d postgresql --skip-bundle
 spawn bundle exec rails new . -T -d sqlite3 --skip-bundle
 expect \"Ynaqdh\"; send \"n\r\"
 interact
