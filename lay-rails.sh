@@ -24,6 +24,7 @@ gem 'sqlite3'
 
 gem 'haml-rails'
 gem 'jquery-rails'
+gem 'pjax-rails'
 
 group :assets do
   gem 'sass-rails'
@@ -36,6 +37,12 @@ group :development, :test do
   gem 'thin'
 end
 EOF
+
+if [ -e ~/.ruby-bundle ]; then
+  echo "Copy vendor/bundle"
+  mkdir -p vendor/bundle
+  cp -r ~/.ruby-bundle/* vendor/bundle/
+fi
 
 bundle install --binstubs --path vendor/bundle
 expect -c "
@@ -54,4 +61,24 @@ cat > .gitignore <<EOF
 /vendor/bundle
 EOF
 
+echo "Install RSpec"
 bundle exec rails g rspec:install
+
+echo "Set PJAX"
+echo "//= require pjax" >> app/assets/javascripts/application.js
+
+cat > app/views/layouts/application.html.haml <<EOF
+!!!
+%html
+  %head
+    %title $app
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    %h1 $app
+    %div{"data-pjax-container" => "true"}
+      = yield
+EOF
+
+rm app/views/layouts/application.html.erb
